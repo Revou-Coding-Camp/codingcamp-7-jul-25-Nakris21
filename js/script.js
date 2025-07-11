@@ -33,7 +33,7 @@ function addTask() {
 
 function displayTasks() {
     const taskList = document.getElementById('task-list');
-    taskList.innerHTML = ''; // Clear the current list
+    taskList.innerHTML = ''; // clear dulu semuanya
 
     // Filter task sesuai kondisi: 'completed' atau 'all'
     const filteredTasks = tasks.filter(task => {
@@ -46,23 +46,34 @@ function displayTasks() {
         taskList.innerHTML = `<p class=" text-center text-gray-500">Task is Empty!</p>`;
         return;
     }
+    taskList.innerHTML = `
+        <div class="grid grid-cols-4 font-semibold text-gray-600 px-2 py-2 border-b">
+            <div>Task</div>
+            <div>Due Date</div>
+            <div>Status</div>
+            <div>Action</div>
+        </div>
+    `;
 
     filteredTasks.forEach(element => {
         const taskItem = `
-        <div class="flex justify-between items-center p-2 border bg-white shadow-sm rounded mb-2">
-            <div class="flex flex-col ${element.completed ? 'line-through text-gray-400' : ''}">
-                <span class="text-lg">${element.task}</span>
-                <span class="text-sm text-gray-500">${element.dueDate}</span>
-            </div>
-            <div class="flex gap-2">
-                <button class="bg-green-500 text-white px-2 py-1 rounded text-sm" onclick="toggleTaskCompletion(${element.id})">
-                    ${element.completed ? 'Undo' : 'Complete'}
-                </button>
-                <button class="bg-red-500 text-white px-2 py-1 rounded text-sm" onclick="deleteTask(${element.id})">
-                    Delete
-                </button>
-            </div>
+        <div class="grid grid-cols-4 items-center p-2 border-b bg-white">
+        <div class="${element.completed ? 'line-through text-gray-400' : ''}">
+            ${element.task}
         </div>
+        <div class="text-sm text-gray-500">${element.dueDate}</div>
+        <div>
+            ${element.completed ? '<span class="text-green-600 font-medium">✓ Done</span>' : '<span class="text-yellow-600 font-medium">Pending</span>'}
+        </div>
+        <div class="flex gap-2">
+            <button class="bg-green-500 text-white px-2 py-1 rounded text-sm" onclick="toggleTaskCompletion(${element.id})">
+                ${element.completed ? 'Undo' : 'Complete'}
+            </button>
+            <button class="bg-red-500 text-white px-2 py-1 rounded text-sm" onclick="deleteTask(${element.id})">
+                Delete
+            </button>
+        </div>
+    </div>
         `;
         taskList.innerHTML += taskItem;
     });
@@ -70,20 +81,27 @@ function displayTasks() {
 
 // Function to delete a specific task
 function deleteTask(id) {
-    // Find the index of the task to delete
-    const taskIndex = tasks.findIndex(task => task.id === id);
-    if (taskIndex !== -1) {
-        // Remove the task from the tasks array
-        tasks.splice(taskIndex, 1);
-        displayTasks(); // Refresh the displayed task list
-    }
+     // Cari task berdasarkan ID
+    const task = tasks.find(task => task.id === id);
+    if (!task) return;
+
+    // Tampilkan pertanyaan konfirmasi + isi task
+    const confirmDelete = confirm(`Kamu yakin Mau menghapus Task ini?\n\n"${task.task}"`);
+    if (!confirmDelete) return;
+
+    // Hapus task
+    tasks = tasks.filter(t => t.id !== id);
+    displayTasks();
 }
 
 // Function to delete all task
 function deleteAllTasks() {
-    tasks = []; // Clear the tasks array
-    displayTasks(); // Refresh the displayed task list
-}
+    const confirmDelete = confirm("Kamu Yakin Mau menghapus Semua Task?");
+        if (confirmDelete) {
+        tasks = []; // Clear the tasks array
+        displayTasks(); // Refresh the displayed task list
+        }
+    }
 
 //functoin toggle task completion
 function toggleTaskCompletion(id) {

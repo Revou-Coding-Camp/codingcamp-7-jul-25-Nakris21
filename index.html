@@ -1,30 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TO DO List</title>
+    <title>Todo-List</title>
 
-    <!-- css Tailwind -->
-     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- CSS External -->
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
-<body class="flex flex-col items-center justify-evenly  min-h-screen bg-gray-100">
-    <!-- Hero Website -->   
+
+<body class="flex flex-col items-center justify-evenly min-h-screen bg-gray-50">
+    <!-- Hero Website -->
     <header>
-        <h1 class="text-3xl">To Do List</h1>
+        <h1 class="text-3xl font-bold">Todo List</h1>
     </header>
-    <main>
-        <!-- To do Input -->
-        <form action="">
-            <input type="text" class="border rounded p-[4px] bg-white" id="" placeholder="Add a new task">
-            <input type="datetime" class="border rounded p-[4px] bg-white"name="" id="" placeholder="dd/mm/yyyy">
-            <button type="button" >+</button>
+
+    <main class="py-4 px-6 bg-white rounded-lg shadow-md w-full max-w-2xl ml-2 mr-2">
+        <!-- Todo Input -->
+        <form class="flex justify-between">
+            <div class="flex gap-[12px] ">
+                <input type="text" id="task-input" class="border rounded p-[4px] bg-white" placeholder="Add a new task">
+                <input type="date" id="due-date-input" class="border rounded p-[4px] bg-white" placeholder="Due date">
+            </div>
+
+            <button type="button" class="bg-blue-500 text-white p-[px] rounded w-[50px]"
+                onclick="addTask();">+</button>
         </form>
+
+        <!-- Todo Action -->
+        <section class="flex justify-between p-[8px]">
+            <div class="flex gap-[8px]">
+
+                <button id="btn-completed" class="p-[4px] rounded bg-gray-300" onclick="filterTasks('completed')">Show Completed</button>
+                <button id="btn-all" class="p-[4px] rounded bg-gray-300" onclick="filterTasks('all')">Show All</button>
+
+
+            </div>
+
+            <button class="bg-red-500 text-white p-[4px] rounded" onclick="deleteAllTasks();">Delete All</button>
+        </section>
+
+        <!-- Todo List -->
+        <section class="">
+            <header>
+                <h2 class=" text-center text-xl font-bold justify-center">Tasks</h2>
+            </header>
+
+            <!-- Task List -->
+            <div id="task-list" class="mt-4 space-y-2">
+                <p class=" text-center text-gray-500 text-align-center">Task is Empty!</p>
+            </div>
+        </section>
     </main>
+
     <footer>
-        <span> @2025 Krisna. All rigt reserved</span>
+        <span>© 2025 Krisna. All rights reserved.</span>
     </footer>
 
+    <!-- Javascript External -->
     <script src="js/script.js"></script>
 </body>
+
 </html>
